@@ -1,18 +1,18 @@
 <template>
     <div class="pl-[135px] pt-[33px] pr-[135px] ">
         <div class="border flex justify-between">
-            <div class="flex">
-                <img class="w-10 h-9" src="./static/Union.png" alt="">
-                <p class="pl-[6px] mr-[72px]">Salty</p>
-            </div>
-            <div class="border justify-between">
+            <div class="flex border justify-between space-x-[72px]">
+                <div class="flex">
+                    <img class="w-10 h-9" src="./static/Union.png" alt="">
+                    <p class="pl-[6px]">Salty</p>
+                </div>
                 <nav class="">
-                    <ul class="flex flex-row justify-between ">
-                        <li><a class="mr-5" href="#">Home</a> </li>
-                        <li><a class="mr-5" href="#">About Us</a> </li>
-                        <li><a class="mr-5" href="#">Destination</a> </li>
-                        <li><a class="mr-5" href="#">Tours</a> </li>
-                        <li><a class="mr-5" href="#">Blog</a> </li>
+                    <ul class="flex flex-row space-x-9 fo">
+                        <li><a class="" href="#">Home</a> </li>
+                        <li><a class="" href="#">About Us</a> </li>
+                        <li><a class="" href="#">Destination</a> </li>
+                        <li><a class="" href="#">Tours</a> </li>
+                        <li><a class="" href="#">Blog</a> </li>
                     </ul>
                 </nav>
             </div>

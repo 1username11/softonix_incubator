@@ -9,6 +9,13 @@ module.exports = {
   ],
   theme: {
     colors,
+    fontFamily: {
+      sans: [
+        'Poppins',
+        'Sen',
+        'sans-serif'
+      ]
+    },
     extend: {}
   },
   plugins: []
