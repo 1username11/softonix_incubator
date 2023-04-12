@@ -1,10 +1,11 @@
 <template>
   <div class="max-w-[1440px] p-6">
     <h3 class="font-medium m-0">Contact list</h3>
-
+    <button @click="addContact">Add Contact</button>
     <div class="contact-list grid-cols-[repeat(auto-fill,_minmax(320px,_1fr))] grid gap-5 my-5">
       <ContactItem
         v-for="(contact, index) in contacts"
+        ref="contactItemRef"
         :key="contact.id"
         :contact="contact"
         @delete="deleteContact(index)"
@@ -18,6 +19,22 @@
 import { ref } from 'vue'
 import type { IContact } from '@/types'
 import ContactItem from '@/components/ContactItem.vue'
+
+const contactItemRef = ref() // reference to ContactItem component
+
+function addContact () {
+  try {
+    contacts.value.unshift({
+      id: Math.random() * 100,
+      description: '',
+      name: ''
+    })
+    // contactItemRef.value?.triggerEditMode()
+    console.log(contactItemRef)
+  } catch (e) {
+    console.log(e)
+  }
+}
 
 const contacts = ref<IContact[]>([
   {

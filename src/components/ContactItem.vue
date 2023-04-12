@@ -10,7 +10,11 @@
               type="text"
               class="block font-medium w-full"
             >
-            <input v-model="localContact.description" type="text" class="block mt-1 text-gray w-full">
+            <input
+              v-model="localContact.description"
+              type="text"
+              class="block mt-1 text-gray w-full"
+            >
           </template>
 
           <template v-else>
@@ -30,12 +34,15 @@
           <span
             class="text-blue-500 font-medium text-xs cursor-pointer hover:underline"
             @click="editMode = false"
-          >Cancel</span>
+          >Cancel
+          </span>
 
           <span
-            class="text-blue-500 font-medium text-xs cursor-pointer hover:underline"
+            :class="!isDisabled? 'text-blue-500 font-medium text-xs cursor-pointer hover:underline'
+              :'font-medium text-xs cursor-pointer text-gray'"
             @click="onSave"
-          >Save</span>
+          >Save
+          </span>
         </template>
 
         <template v-else>
@@ -69,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, computed } from 'vue'
 import type { IContact } from '@/types'
 import IconEnvelope from '@/components/icons/IconEnvelope.vue'
 import IconPhone from '@/components/icons/IconPhone.vue'
@@ -95,10 +102,16 @@ async function triggerEditMode () {
   localContact.value = { ...props.contact }
   await nextTick()
   inputRef.value?.focus()
+  console.log('trigger edit mode')
 }
+defineExpose({ triggerEditMode })
 
 function onSave () {
-  emit('save', localContact.value)
-  editMode.value = false
+  if (!isDisabled.value) {
+    emit('save', localContact.value)
+    editMode.value = false
+  }
 }
+
+const isDisabled = computed(() => !!(!localContact.value.name || !localContact.value.description))
 </script>
