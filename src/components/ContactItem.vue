@@ -3,17 +3,25 @@
     <div class="p-6 pb-2">
       <div class="flex">
         <div class="flex-grow text-sm truncate">
-          <template v-if="editMode">
+          <template v-if="editMode && localContact.editMode">
             <input
-              ref="inputRef"
+              ref="nameInputRef"
               v-model="localContact.name"
               type="text"
               class="block font-medium w-full"
+              placeholder="Name"
             >
             <input
               v-model="localContact.description"
               type="text"
               class="block mt-1 text-gray w-full"
+              placeholder="Description"
+            >
+            <input
+              v-model="localContact.image"
+              type="text"
+              class="block mt-1 text-gray w-full"
+              placeholder="Image"
             >
           </template>
 
@@ -33,7 +41,7 @@
         <template v-if="editMode">
           <span
             class="text-blue-500 font-medium text-xs cursor-pointer hover:underline"
-            @click="editMode = false"
+            @click="onCancel"
           >Cancel
           </span>
 
@@ -87,7 +95,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['delete', 'save'])
 
-const inputRef = ref<HTMLInputElement>()
+const nameInputRef = ref<HTMLInputElement>()
 
 const localContact = ref<Omit<IContact, 'id'>>({
   name: '',
@@ -97,11 +105,20 @@ const localContact = ref<Omit<IContact, 'id'>>({
 
 const editMode = ref(false)
 
+function onCancel () {
+  if (localContact.value.isCreated) {
+    emit('delete')
+  } else {
+    editMode.value = false
+    localContact.value.editMode = false
+  }
+}
 async function triggerEditMode () {
   editMode.value = true
   localContact.value = { ...props.contact }
+  localContact.value.editMode = true
   await nextTick()
-  inputRef.value?.focus()
+  nameInputRef.value?.focus()
   console.log('trigger edit mode')
 }
 defineExpose({ triggerEditMode })
@@ -110,6 +127,8 @@ function onSave () {
   if (!isDisabled.value) {
     emit('save', localContact.value)
     editMode.value = false
+    localContact.value.isCreated = false
+    localContact.value.editMode = false
   }
 }
 

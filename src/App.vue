@@ -16,21 +16,25 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import type { IContact } from '@/types'
 import ContactItem from '@/components/ContactItem.vue'
 
 const contactItemRef = ref() // reference to ContactItem component
 
-function addContact () {
+async function addContact () {
   try {
-    contacts.value.unshift({
+    const newContact = {
       id: Math.random() * 100,
       description: '',
-      name: ''
-    })
-    // contactItemRef.value?.triggerEditMode()
-    console.log(contactItemRef)
+      name: '',
+      isCreated: true
+    }
+
+    contacts.value.unshift(newContact)
+    await nextTick()
+    await contactItemRef.value[contacts.value.length - 1].triggerEditMode()
+    console.log(contactItemRef.value)
   } catch (e) {
     console.log(e)
   }
