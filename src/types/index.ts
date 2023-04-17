@@ -3,4 +3,6 @@ export interface IContact {
   name: string
   description: string
   image?: string
+  isCreated?: boolean
+  editMode?: boolean
 }

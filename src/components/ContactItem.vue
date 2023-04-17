@@ -3,17 +3,25 @@
     <div class="p-6 pb-2">
       <div class="flex">
         <div class="flex-grow text-sm truncate">
-          <template v-if="editMode">
+          <template v-if="editMode && localContact.editMode">
             <input
-              ref="inputRef"
+              ref="nameInputRef"
               v-model="localContact.name"
               type="text"
               class="block w-full"
+              placeholder="Name"
             >
             <input
               v-model="localContact.description"
               type="text"
               class="block mt-1 text-gray w-full"
+              placeholder="Description"
+            >
+            <input
+              v-model="localContact.image"
+              type="text"
+              class="block mt-1 text-gray w-full"
+              placeholder="Image"
             >
           </template>
 
@@ -34,7 +42,7 @@
         <template v-if="editMode">
           <span
             class="text-blue-500 cursor-pointer hover:underline"
-            @click="editMode = false"
+            @click="onCancel"
           >Cancel
           </span>
 
@@ -97,17 +105,29 @@ const localContact = ref<Omit<IContact, 'id'>>({
   image: ''
 })
 
+function onCancel () {
+  if (localContact.value.isCreated) {
+    emit('delete')
+  } else {
+    editMode.value = false
+    localContact.value.editMode = false
+  }
+}
 async function triggerEditMode () {
   editMode.value = true
   localContact.value = { ...props.contact }
+  localContact.value.editMode = true
   await nextTick()
   inputRef.value?.focus()
+  console.log('trigger edit mode')
 }
 
 function onSave () {
   if (!isDisabled.value) {
     emit('save', localContact.value)
     editMode.value = false
+    localContact.value.isCreated = false
+    localContact.value.editMode = false
   }
 }
 
