@@ -8,7 +8,7 @@
               ref="inputRef"
               v-model="localContact.name"
               type="text"
-              class="block font-medium w-full"
+              class="block w-full"
             >
             <input
               v-model="localContact.description"
@@ -18,7 +18,7 @@
           </template>
 
           <template v-else>
-            <p class="font-medium">{{ contact.name }}</p>
+            <p>{{ contact.name }}</p>
             <p class="text-gray mt-1 truncate">
               {{ contact.description }}
             </p>
@@ -26,20 +26,21 @@
         </div>
         <img
           class="w-[40px] h-[40px] object-cover ml-2 rounded-full shrink-0"
-          :src="contact.image" alt="contact-logo"
+          :src="contact.image"
+          alt="contact-logo"
         >
       </div>
-      <div class="flex justify-end mt-2 gap-2">
+      <div class="flex justify-end mt-2 gap-2 text-xs">
         <template v-if="editMode">
           <span
-            class="text-blue-500 font-medium text-xs cursor-pointer hover:underline"
+            class="text-blue-500 cursor-pointer hover:underline"
             @click="editMode = false"
           >Cancel
           </span>
 
           <span
-            :class="!isDisabled? 'text-blue-500 font-medium text-xs cursor-pointer hover:underline'
-              :'font-medium text-xs cursor-pointer text-gray'"
+            :class="!isDisabled ? 'text-blue-500 cursor-pointer hover:underline'
+              :'cursor-not-allowed text-gray'"
             @click="onSave"
           >Save
           </span>
@@ -47,12 +48,12 @@
 
         <template v-else>
           <span
-            class="text-blue-500 font-medium text-xs cursor-pointer hover:underline"
+            class="text-blue-500 cursor-pointer hover:underline"
             @click="triggerEditMode"
           >Edit</span>
 
           <span
-            class="text-red-500 font-medium text-xs cursor-pointer hover:underline"
+            class="text-red-500 cursor-pointer hover:underline"
             @click="$emit('delete')"
           >Delete</span>
         </template>
@@ -66,7 +67,7 @@
       </div>
       <div
         class="flex items-center justify-center flex-1 py-4 border-l
-            border-gray-ultra-light cursor-pointer hover:text-gray"
+        border-gray-ultra-light cursor-pointer hover:text-gray"
       >
         <IconPhone />
         <span class="ml-3">Call</span>
@@ -88,6 +89,7 @@ const props = defineProps<{
 const emit = defineEmits(['delete', 'save'])
 
 const inputRef = ref<HTMLInputElement>()
+const editMode = ref(false)
 
 const localContact = ref<Omit<IContact, 'id'>>({
   name: '',
@@ -95,16 +97,12 @@ const localContact = ref<Omit<IContact, 'id'>>({
   image: ''
 })
 
-const editMode = ref(false)
-
 async function triggerEditMode () {
   editMode.value = true
   localContact.value = { ...props.contact }
   await nextTick()
   inputRef.value?.focus()
-  console.log('trigger edit mode')
 }
-defineExpose({ triggerEditMode })
 
 function onSave () {
   if (!isDisabled.value) {
@@ -114,4 +112,6 @@ function onSave () {
 }
 
 const isDisabled = computed(() => !!(!localContact.value.name || !localContact.value.description))
+
+defineExpose({ triggerEditMode })
 </script>
