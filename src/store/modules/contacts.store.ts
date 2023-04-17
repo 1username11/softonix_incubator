@@ -27,7 +27,22 @@ export const useContactsStore = defineStore('contactsStore', () => {
     }
   ])
 
-  const roles = ref(['all', 'admin', 'user'])
+  const roles = ref([
+    {
+      label: 'All',
+      value: '',
+      selected: true
+    }, {
+      label: 'Admin',
+      value: 'admin',
+      selected: false
+    }, {
+      label: 'User',
+      value: 'user',
+      selected: false
+    }
+  ])
+  const rolesForUpsertContact = ref(roles.value.slice(1))
   const searchParam = ref('')
 
   function deleteContact (contact: IContact) {
@@ -57,6 +72,7 @@ export const useContactsStore = defineStore('contactsStore', () => {
     filterArr,
     searchParam,
     updateContact,
-    roles
+    roles,
+    rolesForUpsertContact
   }
 })

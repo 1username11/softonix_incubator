@@ -5,7 +5,18 @@
         <AppInput v-model="contactForm.name" placeholder="Name" />
         <AppInput v-model="contactForm.description" placeholder="Description" />
         <AppInput v-model="contactForm.image" placeholder="Image" />
-        <AppInput v-model="contactForm.role" placeholder="Role" />
+        <select
+          v-model="contactForm.role"
+          class="rounded-md border border-gray-medium focus:border-gray-dark text-sm p-2  w-full bg-white"
+        >
+          <option
+            v-for="(roleItem, idx) in rolesForUpsertContact"
+            :key="idx"
+            :value="roleItem.value"
+          >
+            {{ roleItem.label }}
+          </option>
+        </select>
       </div>
       <template #footer>
         <div class="flex gap-3 px-6 pb-6 mt-2">
@@ -39,7 +50,7 @@ import type { IContact } from '@/types'
 import { storeToRefs } from 'pinia'
 
 const contactsStore = useContactsStore()
-const { contacts, roles } = storeToRefs(contactsStore)
+const { contacts, rolesForUpsertContact } = storeToRefs(contactsStore)
 const { addContact, deleteContact, updateContact } = contactsStore
 
 const router = useRouter()
@@ -71,9 +82,6 @@ function onSave () {
     updateContact(contactForm)
   } else {
     addContact(contactForm)
-    if (!roles.value.includes(contactForm.role)) {
-      roles.value.push(contactForm.role)
-    }
     router.push({ name: 'contacts' })
   }
 }

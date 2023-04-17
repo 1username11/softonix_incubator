@@ -9,21 +9,20 @@
         Create Contact
       </AppButton>
       <AppInput v-model="searchParam" placeholder="Search..." class="max-w-[400px]" />
-      <div class="pr-2 pl-2.5 pt-0.5 pb-0.5 border border-amber-100 bg-amber-200 rounded-3xl items-center">
-        <select v-model="role" class="bg-amber-200">
-          <option disabled value="">roles filter</option>
+      <div class="rounded-md font-medium border border-gray-medium bg-white focus:border-gray-dark text-sm p-2  w-min">
+        <select v-model="role" class="bg-white">
           <option
-            v-for="(role, idx) in roles"
+            v-for="(roleItem, idx) in roles"
             :key="idx"
             class="text-gray font-semibold"
-            :role="role"
+            :value="roleItem.value"
           >
-            {{ role }}
+            {{ roleItem.label }}
           </option>
         </select>
       </div>
-      <div class="pr-2 pl-2.5 pt-0.5 pb-0.5 border border-amber-100 bg-amber-200 rounded-3xl items-center">
-        <select v-model="sortingType" class="bg-amber-200">
+      <div class="rounded-md font-medium border border-gray-medium bg-white focus:border-gray-dark text-sm p-2  w-min">
+        <select v-model="sortingType" class="bg-white">
           <option
             v-for="(sortingTypeItem, idx) in sortingTypeArr"
             :key="idx"
@@ -31,7 +30,7 @@
             :value="sortingTypeItem.value"
             :selected="sortingTypeItem.selected"
           >
-            {{ sortingTypeItem.value }}
+            {{ sortingTypeItem.label }}
           </option>
         </select>
       </div>
@@ -68,22 +67,22 @@ const { contacts, searchParam, roles } = storeToRefs(contactsStore)
 const { deleteContact, updateContact, filterArr } = contactsStore
 const router = useRouter()
 
-const sortingType = ref('')
+const sortingType = ref('default')
 const role = ref('')
 
 const sortingTypeArr = [
   {
-    label: 'default',
+    label: 'Default',
     value: 'default',
     selected: true
   },
   {
-    label: 'ascending',
+    label: 'Ascending',
     value: 'ascending',
     selected: false
   },
   {
-    label: 'descending',
+    label: 'Descending',
     value: 'descending',
     selected: false
   }
