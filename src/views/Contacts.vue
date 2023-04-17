@@ -67,6 +67,10 @@ const contactsStore = useContactsStore()
 const { contacts, searchParam, roles } = storeToRefs(contactsStore)
 const { deleteContact, updateContact, filterArr } = contactsStore
 const router = useRouter()
+
+const sortingType = ref('')
+const role = ref('')
+
 function createNewContact () {
   router.push({ name: 'upsertContact', params: { contactId: 'new' } })
 }
@@ -80,6 +84,7 @@ const sortingTypeArr = [
   'ascending',
   'descending'
 ]
+
 function ascendingSort (a: IContact, b: IContact) {
   if (a.name > b.name) {
     return 1
@@ -89,6 +94,7 @@ function ascendingSort (a: IContact, b: IContact) {
   }
   return 0
 }
+
 function descendingSort (a: IContact, b: IContact) {
   if (a.name > b.name) {
     return -1
@@ -98,8 +104,6 @@ function descendingSort (a: IContact, b: IContact) {
   }
   return 0
 }
-const sortingType = ref('')
-const role = ref('')
 
 const filteredArr = computed(() => filterArr(contacts.value, searchParam.value)
   .filter((item) => item.role.includes(role.value))
@@ -114,7 +118,3 @@ const filteredArr = computed(() => filterArr(contacts.value, searchParam.value)
   ))
 
 </script>
-
-<style scoped>
-
-</style>

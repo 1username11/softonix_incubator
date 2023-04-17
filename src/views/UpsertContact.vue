@@ -5,7 +5,7 @@
         <AppInput v-model="contactForm.name" placeholder="Name" />
         <AppInput v-model="contactForm.description" placeholder="Description" />
         <AppInput v-model="contactForm.image" placeholder="Image" />
-        <AppInput v-model="contactForm.role" placeholder="Role"/>
+        <AppInput v-model="contactForm.role" placeholder="Role" />
       </div>
       <template #footer>
         <div class="flex gap-3 px-6 pb-6 mt-2">
@@ -45,11 +45,15 @@ const { addContact, deleteContact, updateContact } = contactsStore
 const router = useRouter()
 const route = useRoute()
 
-const currentContact = computed(() => contacts.value.find(c => c.id === +route.params.contactId)
-)
+const currentContact = computed(() => contacts.value.find(c => c.id === +route.params.contactId))
 
 const cardTitle = computed(() => {
   return currentContact.value ? 'Edit Contact' : 'New Contact'
+})
+
+const isFormValid = computed(() => {
+  const { id, image, ...contact } = contactForm
+  return Object.values(contact).every(c => !!c)
 })
 
 const contactForm = reactive<IContact>(currentContact.value
@@ -62,18 +66,14 @@ const contactForm = reactive<IContact>(currentContact.value
     role: ''
   })
 
-const isFormValid = computed(() => {
-  const { id, image, ...contact } = contactForm
-  return Object.values(contact).every(c => !!c)
-})
 function onSave () {
   if (currentContact.value) {
     updateContact(contactForm)
   } else {
     addContact(contactForm)
-      if (!roles.value.includes(contactForm.role)){
-          roles.value.push(contactForm.role)
-      }
+    if (!roles.value.includes(contactForm.role)) {
+      roles.value.push(contactForm.role)
+    }
     router.push({ name: 'contacts' })
   }
 }
@@ -83,7 +83,3 @@ function onDelete () {
   router.replace({ name: 'contacts' })
 }
 </script>
-
-<style scoped>
-
-</style>
