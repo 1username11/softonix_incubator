@@ -24,14 +24,14 @@
       </div>
       <div class="pr-2 pl-2.5 pt-0.5 pb-0.5 border border-amber-100 bg-amber-200 rounded-3xl items-center">
         <select v-model="sortingType" class="bg-amber-200">
-          <option disabled value="">sorting</option>
           <option
-            v-for="(sortingType, idx) in sortingTypeArr"
+            v-for="(sortingTypeItem, idx) in sortingTypeArr"
             :key="idx"
             class="text-gray font-semibold"
-            :sortingType="sortingType"
+            :value="sortingTypeItem.value"
+            :selected="sortingTypeItem.selected"
           >
-            {{ sortingType }}
+            {{ sortingTypeItem.value }}
           </option>
         </select>
       </div>
@@ -72,9 +72,21 @@ const sortingType = ref('')
 const role = ref('')
 
 const sortingTypeArr = [
-  'default',
-  'ascending',
-  'descending'
+  {
+    label: 'default',
+    value: 'default',
+    selected: true
+  },
+  {
+    label: 'ascending',
+    value: 'ascending',
+    selected: false
+  },
+  {
+    label: 'descending',
+    value: 'descending',
+    selected: false
+  }
 ]
 function createNewContact () {
   router.push({ name: 'upsertContact', params: { contactId: 'new' } })
@@ -85,23 +97,11 @@ function editContact (contactId: number) {
 }
 
 function ascendingSort (a: IContact, b: IContact) {
-  if (a.name > b.name) {
-    return 1
-  }
-  if (a.name < b.name) {
-    return -1
-  }
-  return 0
+  return a.name > b.name ? 1 : 0
 }
 
 function descendingSort (a: IContact, b: IContact) {
-  if (a.name > b.name) {
-    return -1
-  }
-  if (a.name < b.name) {
-    return 1
-  }
-  return 0
+  return a.name > b.name ? -1 : 0
 }
 
 const filteredArr = computed(() => filterArr(contacts.value, searchParam.value)
