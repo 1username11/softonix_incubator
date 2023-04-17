@@ -71,6 +71,11 @@ const router = useRouter()
 const sortingType = ref('')
 const role = ref('')
 
+const sortingTypeArr = [
+  'default',
+  'ascending',
+  'descending'
+]
 function createNewContact () {
   router.push({ name: 'upsertContact', params: { contactId: 'new' } })
 }
@@ -78,12 +83,6 @@ function createNewContact () {
 function editContact (contactId: number) {
   router.push({ name: 'upsertContact', params: { contactId } })
 }
-
-const sortingTypeArr = [
-  'default',
-  'ascending',
-  'descending'
-]
 
 function ascendingSort (a: IContact, b: IContact) {
   if (a.name > b.name) {

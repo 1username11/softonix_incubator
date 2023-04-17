@@ -26,20 +26,18 @@ export const useContactsStore = defineStore('contactsStore', () => {
       role: 'user'
     }
   ])
+
+  const roles = ref(['all', 'admin', 'user'])
+  const searchParam = ref('')
+
   function deleteContact (contact: IContact) {
     const currentIndex = contacts.value.findIndex(c => c.id === contact.id)
     contacts.value.splice(currentIndex, 1)
-  }
-  const roles = ref(['all', 'admin', 'user'])
-  function onContactSave (contact: IContact, index: number) {
-    contacts.value[index] = { ...contact }
   }
   function updateContact (contact: IContact) {
     const currentIndex = contacts.value.findIndex(c => c.id === contact.id)
     contacts.value[currentIndex] = { ...contact }
   }
-
-  const searchParam = ref('')
 
   function filterArr (contacts: IContact[], searchParam: string) {
     return contacts.filter((item) => {
@@ -47,9 +45,11 @@ export const useContactsStore = defineStore('contactsStore', () => {
           item.name.toUpperCase().includes(searchParam.toUpperCase())
     })
   }
+
   function addContact (contact: IContact) {
     contacts.value.push(contact)
   }
+
   return {
     contacts,
     deleteContact,

@@ -24,13 +24,12 @@
           <p class="text-gray cursor-text mt-1 truncate">
             {{ contact.description }}
           </p>
-
         </template>
       </div>
 
       <div
         class="flex items-center justify-center w-[40px] h-[40px] ml-2 rounded-full shrink-0 overflow-hidden
-      border border-gray-medium bg-gray-ultra-light"
+        border border-gray-medium bg-gray-ultra-light"
       >
         <span
           v-if="imageHasError || !contact.image"
@@ -83,7 +82,7 @@
         </div>
         <div
           class="flex items-center justify-center flex-1 py-4 border-l
-            border-gray-ultra-light cursor-pointer hover:text-gray"
+          border-gray-ultra-light cursor-pointer hover:text-gray"
         >
           <IconPhone />
           <span class="ml-3">Call</span>
