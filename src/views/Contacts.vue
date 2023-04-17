@@ -106,7 +106,13 @@ function descendingSort (a: IContact, b: IContact) {
 }
 
 const filteredArr = computed(() => filterArr(contacts.value, searchParam.value)
-  .filter((item) => item.role.includes(role.value))
+  .filter((item) => {
+    if (item.role !== 'all') {
+      return item.role.includes(role.value)
+    } else {
+      return item.role.includes('')
+    }
+  })
   .sort(
     (a: IContact, b: IContact): any => {
       if (sortingType.value === 'ascending') {

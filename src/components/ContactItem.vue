@@ -24,16 +24,17 @@
           <p class="text-gray cursor-text mt-1 truncate">
             {{ contact.description }}
           </p>
+
         </template>
       </div>
 
       <div
         class="flex items-center justify-center w-[40px] h-[40px] ml-2 rounded-full shrink-0 overflow-hidden
-        border border-gray-medium bg-gray-ultra-light"
+      border border-gray-medium bg-gray-ultra-light"
       >
         <span
           v-if="imageHasError || !contact.image"
-          class="uppercase"
+          class="font-medium uppercase"
         >{{ nameAbbrv }}
         </span>
 

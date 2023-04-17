@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import {computed, ref} from 'vue'
+import { ref } from 'vue'
 import type { IContact } from '@/types'
 
 export const useContactsStore = defineStore('contactsStore', () => {
@@ -9,7 +9,7 @@ export const useContactsStore = defineStore('contactsStore', () => {
       name: 'Esther Howard',
       description: 'Forward Response Developer',
       image: 'https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-      role: "admin"
+      role: 'admin'
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ export const useContactsStore = defineStore('contactsStore', () => {
     const currentIndex = contacts.value.findIndex(c => c.id === contact.id)
     contacts.value.splice(currentIndex, 1)
   }
-  const roles= ref(['all', 'admin', 'user'])
+  const roles = ref(['all', 'admin', 'user'])
   function onContactSave (contact: IContact, index: number) {
     contacts.value[index] = { ...contact }
   }
@@ -41,12 +41,11 @@ export const useContactsStore = defineStore('contactsStore', () => {
 
   const searchParam = ref('')
 
-  function filterArr (contacts: IContact[], searchParam: string){
+  function filterArr (contacts: IContact[], searchParam: string) {
     return contacts.filter((item) => {
-      return item.name.toUpperCase().includes(searchParam.toUpperCase()) || item.description.toUpperCase().includes(searchParam.toUpperCase())
+      return item.description.toUpperCase().includes(searchParam.toUpperCase()) ||
+          item.name.toUpperCase().includes(searchParam.toUpperCase())
     })
-
-
   }
   function addContact (contact: IContact) {
     contacts.value.push(contact)
