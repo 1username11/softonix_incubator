@@ -9,10 +9,12 @@
           v-model="contactForm.role"
           class="rounded-md border border-gray-medium focus:border-gray-dark text-sm p-2  w-full bg-white"
         >
+          <option value="" disabled selected>All</option>
           <option
             v-for="(roleItem, idx) in rolesForUpsertContact"
             :key="idx"
             :value="roleItem.value"
+            selected
           >
             {{ roleItem.label }}
           </option>
@@ -50,7 +52,7 @@ import type { IContact } from '@/types'
 import { storeToRefs } from 'pinia'
 
 const contactsStore = useContactsStore()
-const { contacts, rolesForUpsertContact } = storeToRefs(contactsStore)
+const { contacts, rolesForUpsertContact, roles } = storeToRefs(contactsStore)
 const { addContact, deleteContact, updateContact } = contactsStore
 
 const router = useRouter()
